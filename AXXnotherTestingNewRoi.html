@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator for Accommodation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            width: 150px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        p {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>ROI Calculator for Accommodation</h1>
+    <label for="numberOfRooms">Number of Rooms:</label>
+    <input type="number" id="numberOfRooms" placeholder="Enter the number of rooms"><br>
+
+    <label for="averagePricePerNight">Average Price per Night ($):</label>
+    <input type="number" id="averagePricePerNight" placeholder="Enter average price per night"><br>
+
+    <label for="occupancyRate">Average Occupancy Rate (%):</label>
+    <input type="number" id="occupancyRate" placeholder="Enter average occupancy rate"><br>
+
+    <button onclick="calculateRevenue()">Calculate</button>
+
+    <p>Calculated Monthly Revenue: <span id="calculatedRevenue"></span></p>
+
+    <label for="preDeterminedMonthlyRevenue">Pre-determined Monthly Revenue ($):</label>
+    <input type="number" id="preDeterminedMonthlyRevenue" placeholder="Enter pre-determined monthly revenue"><br>
+
+    <button onclick="applyOccupancyIncrease()">Apply 66% Increase</button>
+
+    <p>New Monthly Revenue with 66% Increase: <span id="newRevenue"></span></p>
+
+    <script>
+        function calculateRevenue() {
+            const numberOfRooms = parseInt(document.getElementById('numberOfRooms').value);
+            const averagePricePerNight = parseFloat(document.getElementById('averagePricePerNight').value);
+            const occupancyRate = parseFloat(document.getElementById('occupancyRate').value);
+
+            if (isNaN(occupancyRate)) {
+                alert("Please enter a valid Average Occupancy Rate.");
+                return;
+            }
+
+            const monthlyRevenue = numberOfRooms * averagePricePerNight * 30 * (occupancyRate / 100); // Assuming a 30-day month
+
+            document.getElementById('calculatedRevenue').textContent = '$' + monthlyRevenue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            
+            // Pre-fill the "Pre-determined Monthly Revenue" input field with the calculated revenue
+            document.getElementById('preDeterminedMonthlyRevenue').value = monthlyRevenue.toFixed(2);
+        }
+
+        function applyOccupancyIncrease() {
+            const preDeterminedMonthlyRevenue = parseFloat(document.getElementById('preDeterminedMonthlyRevenue').value);
+
+            if (isNaN(preDeterminedMonthlyRevenue)) {
+                alert("Please enter a valid Pre-determined Monthly Revenue.");
+                return;
+            }
+
+            const newRevenue = preDeterminedMonthlyRevenue * 1.66; // Applying a 66% increase
+
+            document.getElementById('newRevenue').textContent = '$' + newRevenue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+    </script>
+</body>
+</html>
